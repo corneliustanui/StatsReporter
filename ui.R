@@ -1,6 +1,12 @@
 # packages
 library(shiny)
 library(shinydashboard)
+library(tidyverse)
+library(magrittr)
+library(table1)
+
+# load data
+# STIData <- read.csv("C:/Users/CORNELIUS/OneDrive/Folders/Data/STIData_Clean.csv")
 
 # Define UI
 ui <- navbarPage(
@@ -19,20 +25,32 @@ ui <- navbarPage(
                             placeholder = "Either csv, xls, or xlsx"),
                   
                   h3("Report Fields"),
-                  selectInput(inputId = "primary_var", 
-                              label = "Select primary variable",
-                              choices = c("Cat Var A", "Cat Var B", "Cat Var C", "Cat Var D"),
-                              selected = NULL),
+                  varSelectInput(inputId = "primary_var", 
+                                 label = "Select primary variable",
+                                 data = NULL,
+                                 selected = NULL,
+                                 multiple = FALSE,
+                                 selectize = TRUE,
+                                 width = NULL,
+                                 size = NULL),
                   
-                  selectInput(inputId = "secondary_var", 
-                              label = "Select secondary variable",
-                              choices = c("Cat Var A", "Cat Var B", "Cat Var C", "Cat Var D"),
-                              selected = NULL),
+                  varSelectInput(inputId = "secondary_var",
+                                 label = "Select secondary variable",
+                                 data = NULL,
+                                 selected = NULL,
+                                 multiple = FALSE,
+                                 selectize = TRUE,
+                                 width = NULL,
+                                 size = NULL),
                   
-                  selectInput(inputId = "tertiary_var", 
-                              label = "Select tertiary variable",
-                              choices = c("Cat Var A", "Cat Var B", "Cat Var C", "Cat Var D"),
-                              selected = NULL),
+                  varSelectInput(inputId = "tertiary_var", 
+                                 label = "Select tertiary variable",
+                                 data = NULL,
+                                 selected = NULL,
+                                 multiple = FALSE,
+                                 selectize = TRUE,
+                                 width = NULL,
+                                 size = NULL),
                   
                   h3("Generate report"),
                   actionButton("generate_report", "Run"),
@@ -54,7 +72,10 @@ ui <- navbarPage(
            
            column(width = 4,
                   tabsetPanel(
-                    tabPanel("Tables", "List of tables"),
+                    tabPanel("Data", DTOutput("raw_table")),
+                    
+                    tabPanel("Tables", "some tables"),
+                    
                     tabPanel("Graphs", "List of graphs")
                     )
              )

@@ -31,6 +31,10 @@ STIData1 <- STIData %>%
   mutate(`Level of Education` = stringr::str_remove(`Level of Education`, "\\d"),
          `Level of Education` = stringr::str_to_sentence(`Level of Education`))
 
+write.csv(x = STIData1,
+          file = "C:/Users/CORNELIUS/OneDrive/Folders/Data/STIData_Clean.csv",
+          row.names = FALSE)
+
 caption  <- "STI Case Status"
 # footnote <- "ᵃ Also known as Breslow thickness"
 footnote = "ᵃ P-values for numeric variables are derived from Kruskal-Wallis test, while p-values for categorical variables are from Pearson's Chi-square test."
