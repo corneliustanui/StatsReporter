@@ -16,10 +16,10 @@ setAccountInfo(name = error_on_missing_name("SHINY_ACC_NAME"),
                secret = error_on_missing_name("SECRET"))
 
 # Deploy the application.
-deployApp(appFiles = c("./Funs/custom_table_funs.R",
-                       "./ui.R", 
-                       "./server.R",
+deployApp(appFiles = c('Funs/custom_table_funs.R',
+                       'ui.R', 
+                       'server.R',
                        
-                       './app.R'),
+                       'app.R'),
           appName = error_on_missing_name("MASTERNAME"),
           forceUpdate = TRUE)

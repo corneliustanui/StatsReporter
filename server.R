@@ -1,3 +1,6 @@
+source("./Funs/custom_table_funs.R")
+
+
 # server
 server <- function(input, output, session){
   
