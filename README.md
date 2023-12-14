@@ -2,7 +2,7 @@
 
 [![Deploy App](https://github.com/corneliustanui/StatsReporter/actions/workflows/deploy-shinyapp.yml/badge.svg)](https://github.com/corneliustanui/StatsReporter/actions/workflows/deploy-shinyapp.yml)
 
-This app generates reports in .docx, .htlm, or .pdf for basic descriptive statistical analyses:
+This [app](https://corneliuskiplimo.shinyapps.io/StatsReporter/) generates reports in .docx, .htlm, or .pdf for basic descriptive statistical analyses:
 
 ### Univariate analysis
 

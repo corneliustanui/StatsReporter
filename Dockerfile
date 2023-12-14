@@ -5,14 +5,14 @@ FROM rocker/shiny:4.3.1
 RUN install2.r rsconnect tidyverse shinydashboard shinyWidgets shinycssloaders plotly DT magrittr renv 
 
 # create image's work dir
-WORKDIR /StatsReporter
+WORKDIR /REPORTER
 
 # copy files from remote repo(GitHub) work dir to image ork dir
 # to copy all files at once (keeping folder structure), use "COPY . .""
-COPY ./app.R /StatsReporter/app.R
-COPY ./deploy.R /StatsReporter/deploy.R
+COPY ./app.R /REPORTER/app.R
+COPY ./deploy.R /REPORTER/deploy.R
 
-COPY ./Funs /StatsReporter/Funs/ 
+COPY ./Funs /REPORTER/Funs/ 
 
 # run the deploy script
 CMD Rscript deploy.R
