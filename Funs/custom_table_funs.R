@@ -1,9 +1,32 @@
 
-# define function
-gen_col_percent <- function(data, var1, var2, show_p_val = FALSE){
+# 1) table of univariate statistics ####  
+univar_freq_table <- function(data, cat_var){
   
-  # load packages
-  library(magrittr)
+  # generate frequencies and percentages
+  raw_table1 <- data %>% 
+    group_by({{cat_var}}) %>% 
+    summarise(Frequency = n()) %>% 
+    mutate(Percent = paste0(round(Frequency/sum(Frequency) * 100, digits = 2), "%")) %>% 
+    arrange(-Frequency)
+  
+  # add totals
+  raw_table2 <- data.frame(0)
+  
+  raw_table2 <- raw_table2 %>% 
+    mutate({{cat_var}} := "Total",
+           Frequency = sum(raw_table1$Frequency),
+           Percent = "100%")
+  
+  raw_table3 <- bind_rows(raw_table1, raw_table2) %>% 
+    select(-X0) %>% 
+    as.data.frame()
+  
+  return(raw_table3)
+}
+
+
+# 2) table of bivariate statistics ####  
+gen_col_percent <- function(data, var1, var2, show_p_val = FALSE){
   
   # cell frequencies 
   raw_table1 <- data %>% 
@@ -86,34 +109,5 @@ gen_col_percent <- function(data, var1, var2, show_p_val = FALSE){
   
 }
 
-(test_table <- gen_col_percent(STIData1, Education, Church))
-(test_table1 <- gen_col_percent(STIData1, Church, Education, show_p_val = TRUE))
-
-
-univar_freq_table <- function(data, cat_var){
-  
-  # generated frequencies and percentages
-  raw_table1 <- data %>% 
-    group_by({{cat_var}}) %>% 
-    summarise(Frequency = n()) %>% 
-    mutate(Percent = paste0(round(Frequency/sum(Frequency) * 100, digits = 2), "%")) %>% 
-    arrange(-Frequency)
-  
-  # add totals
-  raw_table2 <- data.frame(0)
-  
-  raw_table2 <- raw_table2 %>% 
-    mutate({{cat_var}} := "Total",
-           Frequency = sum(raw_table1$Frequency),
-           Percent = "100%")
-  
-  raw_table3 <- bind_rows(raw_table1, raw_table2) %>% 
-    select(-X0) %>% 
-    as.data.frame()
-  
-  return(raw_table3)
-}
-
-univar_freq_table(data = STIData1, cat_var = Occupation)
 
 
