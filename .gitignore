@@ -13,5 +13,5 @@ Test/
 .Rapp.history
 .RDataTmp
 .Ruserdata
-
-
+.Renviron
+.dockerignore

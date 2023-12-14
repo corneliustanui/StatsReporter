@@ -20,9 +20,9 @@ ui <- navbarPage(
                   fileInput(inputId = "data_file",
                             label = NULL,
                             multiple = FALSE,
-                            accept = c(".csv", ".xls", ".xlsx"),
+                            accept = ".csv",
                             buttonLabel = "Browse for file",
-                            placeholder = "Either csv, xls, or xlsx"),
+                            placeholder = "Only .csv files"),
                   
                   h3("Report Fields"),
                   varSelectInput(inputId = "primary_var", 
@@ -91,14 +91,14 @@ ui <- navbarPage(
            
            column(width = 8,
                   tabsetPanel(
-                    tabPanel("Data", 
+                    tabPanel(strong("Data"), 
                              
                              icon = icon ("clipboard-list"),
                              
                              div(DT::dataTableOutput("raw_table"), 
                                  style = "font-size: 70%; width: 70%")),
 
-                    tabPanel("Tables", 
+                    tabPanel(strong("Tables"), 
                              
                              icon = icon ("lightbulb"),
                              
@@ -118,7 +118,7 @@ ui <- navbarPage(
                              
                              ),
                     
-                    tabPanel("Graphs", 
+                    tabPanel(strong("Graphs"), 
                              icon = icon ("magnifying-glass-chart"), 
                              "List of graphs")
                     )
