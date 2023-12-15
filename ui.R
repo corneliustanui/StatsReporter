@@ -14,7 +14,7 @@ ui <- navbarPage(
   tabPanel(title = NULL, 
            icon = icon("chart-simple"),
 
-           column(width = 4,
+           column(width = 3,
                   
                   h3("Import Data"),
                   fileInput(inputId = "data_file",
@@ -22,7 +22,8 @@ ui <- navbarPage(
                             multiple = FALSE,
                             accept = ".csv",
                             buttonLabel = "Browse for file",
-                            placeholder = "Only .csv files"),
+                            placeholder = "Only .csv files",
+                            width = "220px"),
                   
                   h3("Report Fields"),
                   varSelectInput(inputId = "primary_var", 
@@ -30,9 +31,9 @@ ui <- navbarPage(
                                  data = NULL,
                                  selected = NULL,
                                  multiple = FALSE,
-                                 selectize = TRUE,
-                                 width = NULL,
-                                 size = NULL),
+                                 selectize = FALSE,
+                                 width = "220px",
+                                 size = "0.5px"),
                   
                   awesomeCheckbox("show_secondary_var", label = "Add a secondary variable?", value = FALSE),
                   
@@ -45,9 +46,9 @@ ui <- navbarPage(
                                    data = NULL,
                                    selected = NULL,
                                    multiple = FALSE,
-                                   selectize = TRUE,
-                                   width = NULL,
-                                   size = NULL),
+                                   selectize = FALSE,
+                                   width = "220px",
+                                   size = "0.5px"),
                     
                     awesomeCheckbox("show_tertiary_var", label = "Add a tertiary variable?", value = FALSE),
                     
@@ -59,9 +60,9 @@ ui <- navbarPage(
                                      data = NULL,
                                      selected = NULL,
                                      multiple = FALSE,
-                                     selectize = TRUE,
-                                     width = NULL,
-                                     size = NULL)
+                                     selectize = FALSE,
+                                     width = "220px",
+                                     size = "0.5px")
                     )
                   ),
 
@@ -89,7 +90,8 @@ ui <- navbarPage(
                   
            ),
            
-           column(width = 8,
+           column(width = 9,
+                  
                   tabsetPanel(
                     tabPanel(strong("Data"), 
                              
