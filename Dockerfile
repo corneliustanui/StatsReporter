@@ -9,6 +9,8 @@ WORKDIR /REPORTER
 
 # copy files from remote repo(GitHub) work dir to image ork dir
 # to copy all files at once (keeping folder structure), use "COPY . .""
+COPY ./ui.R /REPORTER/ui.R
+COPY ./server.R /REPORTER/server.R
 COPY ./app.R /REPORTER/app.R
 COPY ./deploy.R /REPORTER/deploy.R
 
