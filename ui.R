@@ -16,7 +16,7 @@ ui <- navbarPage(
 
            column(width = 4,
                   
-                  h3("Import data file"),
+                  h3("Import Data"),
                   fileInput(inputId = "data_file",
                             label = NULL,
                             multiple = FALSE,
@@ -34,7 +34,7 @@ ui <- navbarPage(
                                  width = NULL,
                                  size = NULL),
                   
-                  awesomeCheckbox("show_secondary_var", label = "Add a grouping variable?", value = FALSE),
+                  awesomeCheckbox("show_secondary_var", label = "Add a secondary variable?", value = FALSE),
                   
                   conditionalPanel(
                     
@@ -49,7 +49,7 @@ ui <- navbarPage(
                                    width = NULL,
                                    size = NULL),
                     
-                    awesomeCheckbox("show_tertiary_var", label = "Add a second variable?", value = FALSE),
+                    awesomeCheckbox("show_tertiary_var", label = "Add a tertiary variable?", value = FALSE),
                     
                     conditionalPanel(
                       condition = "input.show_tertiary_var == true",
@@ -65,7 +65,7 @@ ui <- navbarPage(
                     )
                   ),
 
-                  h3("Generate report"),
+                  h3("Generate Report"),
                   actionButton(inputId = "generate_report", 
                                label = "Run",
                                icon = icon ("play"),
