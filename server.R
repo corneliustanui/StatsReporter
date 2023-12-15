@@ -1,5 +1,6 @@
-source("./Funs/custom_table_funs.R")
 
+# load custom functions
+source("./Funs/custom_table_funs.R")
 
 # server
 server <- function(input, output, session){
@@ -17,7 +18,7 @@ server <- function(input, output, session){
     freezeReactiveValue(input, "primary_var")
     
     updateSelectInput(
-      session = getDefaultReactiveDomain(),
+      session = session,
       inputId = "primary_var",
       choices = choices_primary_var,
       selected = NA
@@ -28,7 +29,7 @@ server <- function(input, output, session){
     freezeReactiveValue(input, "secondary_var")
     
     updateSelectInput(
-      session = getDefaultReactiveDomain(),
+      session = session,
       inputId = "secondary_var",
       choices = choices_secondary_var,
       selected = NA
@@ -39,7 +40,7 @@ server <- function(input, output, session){
     freezeReactiveValue(input, "tertiary_var")
     
     updateSelectInput(
-      session = getDefaultReactiveDomain(),
+      session = session,
       inputId = "tertiary_var",
       choices = choices_tertiary_var,
       selected = NA
@@ -50,33 +51,62 @@ server <- function(input, output, session){
   # generate tables when button "Run" is clicked 
   observeEvent(input$generate_report, {
     
+    # output raw data table
     output$raw_table <- renderDataTable(data_frame())
     
 
     # inputs
     primaryVarName <- input$primary_var
+
+    secondaryVarNameShow <- input$show_secondary_var
     secondaryVarName <- input$secondary_var
+
+    tertiaryVarNameShow <- input$show_tertiary_var
     tertiaryVarName <- input$tertiary_var
-    
-    # univariate table 
-    if(is.null(primaryVarName)){
-      dt_table1 <- NULL
-    } else if(!is.null(primaryVarName) & is.null(secondaryVarName)){
-      dt_table1 <- univar_freq_table(data = data_frame(), 
-                                     cat_var = {{primaryVarName}})
-      
-      # bivariate table
-    } else if(!is.null(primaryVarName) & !is.null(secondaryVarName)){
-      dt_table1 <- gen_col_percent(data = data_frame(),
-                                   var1 = {{primaryVarName}},
-                                   var2 = {{secondaryVarName}}, 
-                                   show_p_val = TRUE)
+
+    if(is.null(primaryVarName) & secondaryVarNameShow == 0){
+      summary_dt_table <- NULL} 
+    else if (!is.null(primaryVarName) & secondaryVarNameShow == 0){
+      req(primaryVarName)
+      summary_dt_table <- univar_data_summary_stats(data = data_frame(), 
+                                                    var = {{primaryVarName}})} 
+    else if (!is.null(primaryVarName) & secondaryVarNameShow == 1 & !is.null(secondaryVarName)){
+      req(primaryVarName)
+      req(secondaryVarNameShow)
+      req(secondaryVarName)
+      summary_dt_table <- bivar_data_summary_stats(data = data_frame(), 
+                                                   var1 = {{primaryVarName}},
+                                                   var2 = {{secondaryVarName}},
+                                                   show_p_val = TRUE)
     }
 
-    output$dt_table <- renderTable(dt_table1)
+    # # univ: cat primary var
+    # univ_dt_table_cat_prim <- univar_freq_table(data = data_frame(), cat_var = {{primaryVarName}})
+    # 
+    # # univ: numerical  primary var
+    # univ_dt_table_num_prim <- numeric_data_summary_stats(data = data_frame(), var = {{primaryVarName}})
+
+    # # bivar: numerical  primary var
+    # bivar_dt_table_cat_prim <- bivar_numeric_data_summary_stats(data = data_frame(), 
+    #                                               var1 = {{primaryVarName}}, 
+    #                                               var2 = {{secondaryVarName}})
+    
+    # # bivar: cat primary var
+    # bivar_dt_table_num_prim <- gen_col_percent(data = data_frame(),
+    #                              var1 = {{primaryVarName}},
+    #                              var2 = {{secondaryVarName}}, 
+    #                              show_p_val = TRUE)
+    
+    
+    
+    
+    # output summary stats table
+      output$dt_table <- renderTable(summary_dt_table)
 
     
     # trivariate table
+    
+    
 
     
     }
@@ -91,29 +121,39 @@ server <- function(input, output, session){
     freezeReactiveValue(input, "primary_var")
     
     updateSelectInput(
-      session = getDefaultReactiveDomain(),
+      session = session,
       inputId = "primary_var",
       choices = choices_primary_var,
       selected = NA
     )
+    
+    # show_secondary_var
+    updateAwesomeCheckbox(session = session, 
+                          inputId = "show_secondary_var", 
+                          value = FALSE)
     
     # secondary_var
     choices_secondary_var <- colnames(data_frame())
     freezeReactiveValue(input, "secondary_var")
     
     updateSelectInput(
-      session = getDefaultReactiveDomain(),
+      session = session,
       inputId = "secondary_var",
       choices = choices_secondary_var,
       selected = NA
     )
+    
+    # show_tertiary_var
+    updateAwesomeCheckbox(session = session, 
+                          inputId = "show_tertiary_var", 
+                          value = FALSE)
     
     # tertiary_var
     choices_tertiary_var <- colnames(data_frame())
     freezeReactiveValue(input, "tertiary_var")
     
     updateSelectInput(
-      session = getDefaultReactiveDomain(),
+      session = session,
       inputId = "tertiary_var",
       choices = choices_tertiary_var,
       selected = NA
@@ -126,5 +166,53 @@ server <- function(input, output, session){
     }
   )
   
+  # clear secondary_var show_secondary_var when  = 0
+  observeEvent(input$show_secondary_var == 0, {
+    
+    # secondary_var
+    choices_secondary_var <- colnames(data_frame())
+    freezeReactiveValue(input, "secondary_var")
+    
+    updateSelectInput(
+      session = session,
+      inputId = "secondary_var",
+      choices = choices_secondary_var,
+      selected = NA
+      )
+    
+    # show_tertiary_var
+    updateAwesomeCheckbox(session = session, 
+                          inputId = "show_tertiary_var", 
+                          value = FALSE)
+    
+    
+    # tertiary_var
+    choices_tertiary_var <- colnames(data_frame())
+    freezeReactiveValue(input, "tertiary_var")
+    
+    updateSelectInput(
+      session = session,
+      inputId = "tertiary_var",
+      choices = choices_tertiary_var,
+      selected = NA
+       )
+    }
+  )
+  
+  # clear tertiary_var show_tertiary_var when  = 0
+  observeEvent(input$show_tertiary_var == 0, {
+    
+    # tertiary_var
+    choices_tertiary_var <- colnames(data_frame())
+    freezeReactiveValue(input, "tertiary_var")
+    
+    updateSelectInput(
+      session = session,
+      inputId = "tertiary_var",
+      choices = choices_tertiary_var,
+      selected = NA
+      )
+    }
+  )
 
 }
