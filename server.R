@@ -2,7 +2,7 @@
 # load custom functions
 source("./Funs/custom_table_funs.R")
 
-# increase capacity to load big files to 30MB
+# increase capacity to load big files to 100MB
 options(shiny.maxRequestSize = 100*1024^2) 
 
 # server
