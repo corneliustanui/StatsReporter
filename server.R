@@ -2,6 +2,9 @@
 # load custom functions
 source("./Funs/custom_table_funs.R")
 
+# increase capacity to load big files to 30MB
+options(shiny.maxRequestSize = 100*1024^2) 
+
 # server
 server <- function(input, output, session){
   
@@ -80,35 +83,25 @@ server <- function(input, output, session){
                                                    show_p_val = TRUE)
     }
 
-    # # univ: cat primary var
-    # univ_dt_table_cat_prim <- univar_freq_table(data = data_frame(), cat_var = {{primaryVarName}})
-    # 
-    # # univ: numerical  primary var
-    # univ_dt_table_num_prim <- numeric_data_summary_stats(data = data_frame(), var = {{primaryVarName}})
-
-    # # bivar: numerical  primary var
-    # bivar_dt_table_cat_prim <- bivar_numeric_data_summary_stats(data = data_frame(), 
-    #                                               var1 = {{primaryVarName}}, 
-    #                                               var2 = {{secondaryVarName}})
-    
-    # # bivar: cat primary var
-    # bivar_dt_table_num_prim <- gen_col_percent(data = data_frame(),
-    #                              var1 = {{primaryVarName}},
-    #                              var2 = {{secondaryVarName}}, 
-    #                              show_p_val = TRUE)
-    
-    
-    
-    
     # output summary stats table
       output$dt_table <- renderTable(summary_dt_table)
 
     
     # trivariate table
-    
-    
-
-    
+      
+    # download summary table
+      output$download_dt_table <- downloadHandler(
+        filename = function() {
+          paste("Summary Table_", 
+                primaryVarName, "_", 
+                secondaryVarName, "_", 
+                Sys.Date(), ".csv", sep="")
+        },
+        
+        content = function(file) {
+          write.csv(summary_dt_table, file, row.names = FALSE)
+        }
+      )
     }
   )
   
@@ -163,6 +156,14 @@ server <- function(input, output, session){
     output$raw_table <- NULL
     
     output$dt_table <- renderText("No records: select variables and 'Run'")
+    
+    # clear report type checkbox
+    updateCheckboxGroupInput(
+      session = session,
+      inputId = "report_type",
+      selected = NA,
+      inline = TRUE
+      )
     }
   )
   

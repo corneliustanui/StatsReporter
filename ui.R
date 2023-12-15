@@ -16,6 +16,17 @@ ui <- navbarPage(
 
            column(width = 3,
                   
+                  style = "background-color:#C8E9E9;
+                           border-style:inset;
+                           border-top-color: #32a1ce;
+                           border-left-color: #32a1ce;
+                           border-width:3px;
+                           border-radius:2%;
+                           font-size:13px;
+                           border-bottom-width: 15px;
+                           border-bottom-color: #C8E9E9;
+                           border-right-color: #C8E9E9;",
+                  
                   h3("Import Data"),
                   fileInput(inputId = "data_file",
                             label = NULL,
@@ -23,7 +34,7 @@ ui <- navbarPage(
                             accept = ".csv",
                             buttonLabel = "Browse for file",
                             placeholder = "Only .csv files",
-                            width = "220px"),
+                            width = "270px"),
                   
                   h3("Report Fields"),
                   varSelectInput(inputId = "primary_var", 
@@ -32,7 +43,7 @@ ui <- navbarPage(
                                  selected = NULL,
                                  multiple = FALSE,
                                  selectize = FALSE,
-                                 width = "220px",
+                                 width = "270px",
                                  size = "0.5px"),
                   
                   awesomeCheckbox("show_secondary_var", label = "Add a secondary variable?", value = FALSE),
@@ -47,7 +58,7 @@ ui <- navbarPage(
                                    selected = NULL,
                                    multiple = FALSE,
                                    selectize = FALSE,
-                                   width = "220px",
+                                   width = "270px",
                                    size = "0.5px"),
                     
                     awesomeCheckbox("show_tertiary_var", label = "Add a tertiary variable?", value = FALSE),
@@ -61,23 +72,22 @@ ui <- navbarPage(
                                      selected = NULL,
                                      multiple = FALSE,
                                      selectize = FALSE,
-                                     width = "220px",
+                                     width = "270px",
                                      size = "0.5px")
                     )
                   ),
-
+                  
                   h3("Generate Report"),
                   actionButton(inputId = "generate_report", 
                                label = "Run",
                                icon = icon ("play"),
                                style = "background-color:#317EBD;
-                                        color:#FFFFF7;
+                                        color:white;
                                         border-color:#BEBEBE;
                                         border-style:none;
-                                        border-width:0px;
-                                        border-radius:7%;
-                                        font-size:13px;
-                                        width:30#"),
+                                        border-width:3px;
+                                        border-radius:2%;
+                                        font-size:13px;"),
                   
                   actionBttn(inputId = "clear_report",
                              label = "Clear report",
@@ -104,20 +114,28 @@ ui <- navbarPage(
                              
                              icon = icon ("lightbulb"),
                              
-                             h3("Download report"),
+                             br(),
                              
+                             div(tableOutput("dt_table"), 
+                                 style = "font-size: 70%; width: 70%"),
+
                              checkboxGroupInput(inputId = "report_type",
                                                 label = "Report file type",
-                                                choices = c(".docx", ".pdf", ".html"),
+                                                choices = c(".csv", ".docx", ".pdf", ".html"),
                                                 selected = NULL,
                                                 inline = TRUE,
                                                 width = NULL),
                              
-                             downloadButton("download_dt_table", label = "Download"),
+                             downloadButton("download_dt_table", 
+                                            label = "Download",
+                                            style = "background-color:#317EBD;
+                                                     color:white;
+                                                     border-color:#BEBEBE;
+                                                     border-style:none;
+                                                     border-width:3px;
+                                                     border-radius:2%;
+                                                     font-size:13px;")
 
-                             div(tableOutput("dt_table"), 
-                                 style = "font-size: 70%; width: 70%")
-                             
                              ),
                     
                     tabPanel(strong("Graphs"), 
