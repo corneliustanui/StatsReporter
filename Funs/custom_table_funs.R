@@ -2,7 +2,7 @@
 # univariate tables
 univar_data_summary_stats <- function(data, var) {
   
-  # # check that var is numeric, else give error
+  # # check that var is numeric, else give generate table for non-numeric
   if(is.numeric(data %>% select({{var}}) %>% pull)){
     summary_stats_table <- data %>% 
       select({{var}}) %>% 
@@ -30,10 +30,12 @@ univar_data_summary_stats <- function(data, var) {
   } else if(!is.numeric(data %>% select({{var}}) %>% pull)){
     # generate frequencies and percentages
     raw_table1 <- data %>% 
+      filter(!is.na({{var}}) & !is.null({{var}}) & {{var}} != "") %>% 
       group_by({{var}}) %>% 
       summarise(Frequency = n()) %>% 
       mutate(Percent = paste0(round(Frequency/sum(Frequency) * 100, digits = 2), "%")) %>% 
-      arrange(-Frequency)
+      arrange(-Frequency) 
+      
     
     # add totals
     raw_table2 <- data.frame(0)
@@ -95,12 +97,14 @@ bivar_data_summary_stats <- function(data, var1, var2, show_p_val = FALSE) {
       group_by({{var1}}) %>% 
       summarise(Frequency = n(), .groups = "keep") %>% 
       mutate({{var2}} := "Total")
+      
     
     # var2 totals
     raw_table3 <- data %>% 
       group_by({{var2}}) %>% 
       summarise(Frequency = n(), .groups = "keep") %>% 
       mutate({{var1}} := "Total")
+      
     
     # overall totals
     raw_table4 <- data %>% 
@@ -109,10 +113,13 @@ bivar_data_summary_stats <- function(data, var1, var2, show_p_val = FALSE) {
       mutate({{var1}} := "Total",
              {{var2}} := "Total") %>% 
       group_by({{var1}}, {{var2}}) %>% 
-      summarise(Frequency = sum(Frequency), .groups = "keep")
+      summarise(Frequency = sum(Frequency), .groups = "keep") 
     
     # combine raw mini-tables
-    final_table_long <- bind_rows(raw_table1, raw_table2, raw_table3, raw_table4)
+    final_table_long <- bind_rows(raw_table1, 
+                                  raw_table2, 
+                                  raw_table3, 
+                                  raw_table4) 
     
     # transform long to wide
     final_table_wide <- final_table_long %>% 
