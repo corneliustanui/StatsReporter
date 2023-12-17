@@ -2,7 +2,7 @@
 FROM rocker/shiny:4.3.1
 
 # install all packages used by this app
-RUN install2.r rsconnect tidyverse shinydashboard shinyWidgets shinycssloaders plotly DT magrittr renv 
+RUN install2.r rsconnect tidyverse shinydashboard shinyWidgets shinycssloaders plotly DT magrittr renv markdown
 
 # create image's work dir
 WORKDIR /REPORTER

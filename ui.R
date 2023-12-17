@@ -6,6 +6,7 @@ library(tidyverse)
 library(magrittr)
 library(DT)
 library(renv)
+library(markdown)
 
 # Define UI
 ui <- navbarPage(
