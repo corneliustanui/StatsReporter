@@ -11,9 +11,18 @@ library(renv)
 ui <- navbarPage(
   title = strong("Stats Reporter"),
   
-  tabPanel(title = NULL, 
+  tabPanel(title = "Home", 
+           icon = icon("home"),
+           
+           column(width = 12),
+           
+           
+           htmltools::includeMarkdown("./www/about.md")),
+  
+  
+  tabPanel(title = "Stats", 
            icon = icon("chart-simple"),
-
+           
            column(width = 3,
                   
                   style = "background-color:#C8E9E9;
@@ -90,7 +99,7 @@ ui <- navbarPage(
                                         font-size:13px;"),
                   
                   actionBttn(inputId = "clear_report",
-                             label = "Clear report",
+                             label = "Clear Report",
                              icon = icon("eraser"),
                              style = "stretch",
                              color = "success",
@@ -103,22 +112,29 @@ ui <- navbarPage(
            column(width = 9,
                   
                   tabsetPanel(
+                    tabPanel(strong("Instructions"), 
+                             
+                             icon = icon ("circle-info"),
+                             
+                             htmltools::includeMarkdown("./www/instructions.md")),
+                    
+                    
                     tabPanel(strong("Data"), 
                              
-                             icon = icon ("clipboard-list"),
+                             icon = icon ("database"),
                              
                              div(DT::dataTableOutput("raw_table"), 
                                  style = "font-size: 70%; width: 70%")),
-
+                    
                     tabPanel(strong("Tables"), 
                              
-                             icon = icon ("lightbulb"),
+                             icon = icon ("table"),
                              
                              br(),
                              
                              div(tableOutput("dt_table"), 
                                  style = "font-size: 70%; width: 70%"),
-
+                             
                              checkboxGroupInput(inputId = "report_type",
                                                 label = "Report file type",
                                                 choices = c(".csv", ".docx", ".pdf", ".html"),
@@ -135,13 +151,36 @@ ui <- navbarPage(
                                                      border-width:3px;
                                                      border-radius:2%;
                                                      font-size:13px;")
-
-                             ),
+                             
+                    ),
                     
                     tabPanel(strong("Graphs"), 
+                             
                              icon = icon ("magnifying-glass-chart"), 
-                             "List of graphs")
+                             br(),
+                             
+                             div(tableOutput("dt_graph"), 
+                                 style = "font-size: 70%; width: 70%"),
+                             
+                             checkboxGroupInput(inputId = "graph_type",
+                                                label = "Graph file type",
+                                                choices = c(".png", ".svg"),
+                                                selected = NULL,
+                                                inline = TRUE,
+                                                width = NULL),
+                             
+                             downloadButton("download_dt_graph", 
+                                            label = "Download",
+                                            style = "background-color:#317EBD;
+                                                     color:white;
+                                                     border-color:#BEBEBE;
+                                                     border-style:none;
+                                                     border-width:3px;
+                                                     border-radius:2%;
+                                                     font-size:13px;")
+                             
                     )
-             )
-      )
+                  )
+           )
+  )
 )
