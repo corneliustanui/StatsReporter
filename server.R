@@ -51,6 +51,32 @@ server <- function(input, output, session){
   }
 )
   
+  # disable buttons conditionally 
+  observeEvent(input$primary_var, {
+    
+    # inputs
+    req(req(input$data_file))
+    
+    primaryVarName <- input$primary_var
+    
+    secondaryVarNameShow <- input$show_secondary_var
+    secondaryVarName <- input$secondary_var
+    
+    tertiaryVarNameShow <- input$show_tertiary_var
+    tertiaryVarName <- input$tertiary_var
+    
+    if(is.null(primaryVarName)){
+      shinyjs::disable("show_secondary_var")
+      shinyjs::disable("show_tertiary_var")
+      updateAwesomeCheckbox(session, "show_secondary_var", value = FALSE)
+      updateAwesomeCheckbox(session, "show_tertiary_var", value = FALSE)
+      } else if (!is.null(primaryVarName)){
+        shinyjs::enable("show_secondary_var")
+        shinyjs::enable("show_tertiary_var")
+        }
+    }
+  )
+  
   # generate tables when button "Run" is clicked 
   observeEvent(input$generate_report, {
     

@@ -14,7 +14,8 @@ COPY ./server.R /REPORTER/server.R
 COPY ./app.R /REPORTER/app.R
 COPY ./deploy.R /REPORTER/deploy.R
 
-COPY ./Funs /REPORTER/Funs/ 
+COPY ./Funs /REPORTER/Funs/
+COPY ./www /REPORTER/www/ 
 
 # run the deploy script
 CMD Rscript deploy.R
