@@ -9,7 +9,8 @@ library(magrittr)
 library(DT)
 library(renv)
 library(markdown)
-
+library(plotly)
+library(forcats)
 
 # Define UI
 ui <- navbarPage(
@@ -146,12 +147,12 @@ ui <- navbarPage(
                                    ), 
                                  style = "font-size: 70%; width: 70%"),
                              
-                             checkboxGroupInput(inputId = "report_type",
-                                                label = "Report file type",
-                                                choices = c(".csv", ".docx", ".pdf", ".html"),
-                                                selected = NULL,
-                                                inline = TRUE,
-                                                width = NULL),
+                             radioButtons(inputId = "report_type",
+                                          label = "Report file type",
+                                          choices = c(".csv", ".docx", ".pdf", ".html"),
+                                          selected = NA,
+                                          inline = TRUE,
+                                          width = NULL),
                              
                              downloadButton("download_dt_table", 
                                             label = "Download",
@@ -170,15 +171,19 @@ ui <- navbarPage(
                              icon = icon ("magnifying-glass-chart"), 
                              br(),
                              
-                             div(tableOutput("dt_graph"), 
-                                 style = "font-size: 70%; width: 70%"),
+                             plotOutput("summary_graph") %>%
+                               withSpinner(
+                                 type = 6, 
+                                 size = 0.5,
+                                 color = "#317EBD"
+                               ),
                              
-                             checkboxGroupInput(inputId = "graph_type",
-                                                label = "Graph file type",
-                                                choices = c(".png", ".svg"),
-                                                selected = NULL,
-                                                inline = TRUE,
-                                                width = NULL),
+                             radioButtons(inputId = "graph_type",
+                                          label = "Graph file type",
+                                          choices = c(".png", ".svg"),
+                                          selected = NA,
+                                          inline = TRUE,
+                                          width = NULL),
                              
                              downloadButton("download_dt_graph", 
                                             label = "Download",
