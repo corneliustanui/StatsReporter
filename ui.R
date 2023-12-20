@@ -2,14 +2,20 @@
 library(shiny)
 library(shinydashboard)
 library(shinyWidgets)
+library(shinycssloaders)
+library(shinyjs)
 library(tidyverse)
 library(magrittr)
 library(DT)
 library(renv)
 library(markdown)
 
+
 # Define UI
 ui <- navbarPage(
+  
+  useShinyjs(),
+  
   title = strong("Stats Reporter"),
   
   tabPanel(title = "Home", 
@@ -19,7 +25,6 @@ ui <- navbarPage(
            
            
            htmltools::includeMarkdown("./www/about.md")),
-  
   
   tabPanel(title = "Stats", 
            icon = icon("chart-simple"),
@@ -38,6 +43,7 @@ ui <- navbarPage(
                            border-right-color: #C8E9E9;",
                   
                   h3("Import Data"),
+                  
                   fileInput(inputId = "data_file",
                             label = NULL,
                             multiple = FALSE,
@@ -56,36 +62,31 @@ ui <- navbarPage(
                                  width = "270px",
                                  size = "0.5px"),
                   
-                  awesomeCheckbox("show_secondary_var", label = "Add a secondary variable?", value = FALSE),
+                  awesomeCheckbox(inputId = "show_secondary_var", 
+                                  label = "Add a secondary variable?", 
+                                  value = FALSE),
                   
-                  conditionalPanel(
-                    
-                    condition = "input.show_secondary_var == true",
-                    
-                    varSelectInput(inputId = "secondary_var",
-                                   label = "Select secondary variable",
-                                   data = NULL,
-                                   selected = NULL,
-                                   multiple = FALSE,
-                                   selectize = FALSE,
-                                   width = "270px",
-                                   size = "0.5px"),
-                    
-                    awesomeCheckbox("show_tertiary_var", label = "Add a tertiary variable?", value = FALSE),
-                    
-                    conditionalPanel(
-                      condition = "input.show_tertiary_var == true",
-                      
-                      varSelectInput(inputId = "tertiary_var", 
-                                     label = "Select tertiary variable",
-                                     data = NULL,
-                                     selected = NULL,
-                                     multiple = FALSE,
-                                     selectize = FALSE,
-                                     width = "270px",
-                                     size = "0.5px")
-                    )
-                  ),
+                  varSelectInput(inputId = "secondary_var",
+                                 label = "Select secondary variable",
+                                 data = NULL,
+                                 selected = NULL,
+                                 multiple = FALSE,
+                                 selectize = FALSE,
+                                 width = "270px",
+                                 size = "0.5px"),
+                  
+                  awesomeCheckbox(inputId = "show_tertiary_var", 
+                                  label = "Add a tertiary variable?", 
+                                  value = FALSE),
+                  
+                  varSelectInput(inputId = "tertiary_var", 
+                                 label = "Select tertiary variable",
+                                 data = NULL,
+                                 selected = NULL,
+                                 multiple = FALSE,
+                                 selectize = FALSE,
+                                 width = "270px",
+                                 size = "0.5px"),
                   
                   h3("Generate Report"),
                   actionButton(inputId = "generate_report", 
@@ -107,8 +108,7 @@ ui <- navbarPage(
                              size = "sm",
                              block = FALSE,
                              no_outline = FALSE)
-                  
-           ),
+                  ),
            
            column(width = 9,
                   
@@ -124,8 +124,13 @@ ui <- navbarPage(
                              
                              icon = icon ("database"),
                              
-                             div(DT::dataTableOutput("raw_table"), 
-                                 style = "font-size: 70%; width: 70%")),
+                             div(DT::dataTableOutput("raw_table") %>% 
+                                   withSpinner(
+                                     type = 6, 
+                                     size = 0.5,
+                                     color = "#317EBD"
+                                   ),
+                                 style = "font-size: 70%; width:100%; margin:auto")),
                     
                     tabPanel(strong("Tables"), 
                              
@@ -133,7 +138,12 @@ ui <- navbarPage(
                              
                              br(),
                              
-                             div(tableOutput("dt_table"), 
+                             div(tableOutput("dt_table") %>% 
+                                   withSpinner(
+                                     type = 6, 
+                                     size = 0.5,
+                                     color = "#317EBD"
+                                   ), 
                                  style = "font-size: 70%; width: 70%"),
                              
                              checkboxGroupInput(inputId = "report_type",
@@ -179,9 +189,8 @@ ui <- navbarPage(
                                                      border-width:3px;
                                                      border-radius:2%;
                                                      font-size:13px;")
-                             
-                    )
-                  )
-           )
-  )
+                             )
+                      )
+              )
+       )
 )
