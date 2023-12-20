@@ -1,6 +1,7 @@
 
 # load custom functions
 source("./Funs/custom_table_funs.R")
+source("./Funs/univar_graphs.R")
 
 # increase capacity to load big files to 100MB
 options(shiny.maxRequestSize = 100*1024^2) 
@@ -220,6 +221,16 @@ server <- function(input, output, session){
         }
       )
       
+      
+      # generate graphs
+      output$summary_graph <- renderPlot({
+        summaryGraph <- univar_discrete_graphs(data = data_frame(), 
+                                               var = {{primaryVarName}})
+        
+        return(summaryGraph)
+      })
+      
+      
     },
     
     label = "Generate reports",
@@ -283,10 +294,20 @@ server <- function(input, output, session){
       
       output$dt_table <- renderText("No records: select variables and 'Run'")
       
+      output$summary_graph <- NULL
+      
       # clear report type checkbox
-      updateCheckboxGroupInput(
+      updateRadioButtons(
         session = session,
         inputId = "report_type",
+        selected = NA,
+        inline = TRUE
+      )
+      
+      # clear report type checkbox
+      updateRadioButtons(
+        session = session,
+        inputId = "graph_type",
         selected = NA,
         inline = TRUE
       )
