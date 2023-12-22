@@ -1,6 +1,6 @@
-# Stats Reporter
+# About QSR
 
-This [app](https://corneliuskiplimo.shinyapps.io/StatsReporter/) generates reports in `.csv`, `.docx`, `.htlm`, or `.pdf` formats for basic descriptive statistical analyses:
+**QSR** (Quick Stats Reporter) is an extremely useful R/Shiny web application for quick data analysis and reporting. It determines on its own what kind of table and graph to generate depending on the type of variable(s) selected. It generates tabular reports in `.csv`, `.pdf`, `.docx`, `.htlm`, or `.pdf` and graphical reports in `.png`, `.pdf`, and `.svg` formats for the following basic descriptive statistical analyses:
 
 ### Univariate analysis
 

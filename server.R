@@ -225,14 +225,69 @@ server <- function(input, output, session){
 
       
       # generate graphs
-      output$summary_graph <- renderPlot({
-        summaryGraph <- univar_graphs(data = data_frame(), 
-                                      var = {{primaryVarName}})
+      summaryGraph <- univar_graphs(data = data_frame(), 
+                                    var = {{primaryVarName}})
+      # output summary stats graph
+      output$summary_graph <- renderPlot({summaryGraph})
+      
+      # download summary graph
+      observeEvent(
+        eventExpr = input$graph_type,
         
-        return(summaryGraph)
-      })
-      
-      
+        handlerExpr = {
+          if (input$graph_type == ".png"){
+            # req(input$graph_type)
+            
+            # 1) Default PNG graph
+            output$download_dt_graph <- downloadHandler(
+              filename = function(){paste0("Summary Graph_",
+                                           primaryVarName, "_",
+                                           Sys.Date(), ".png")},
+              
+              content = function(file){ggsave(filename = file,
+                                              plot = summaryGraph,
+                                              width = 20,
+                                              height = 10,
+                                              units = "cm",
+                                              dpi = 320)})
+            
+            # 2) PDF graph
+          } else if (input$graph_type == ".pdf"){
+            output$download_dt_graph <- downloadHandler(
+              
+              filename = function(){paste0("Summary Graph_",
+                                           primaryVarName, "_",
+                                           Sys.Date(), ".pdf")},
+              
+              content = function(file){ggsave(filename = file,
+                                              plot = summaryGraph,
+                                              width = 20,
+                                              height = 10,
+                                              units = "cm",
+                                              dpi = 320)})
+            
+            # 3) SVG graph
+          } else if (input$graph_type == ".svg"){
+            
+            output$download_dt_graph <- downloadHandler(
+              
+              filename = function(){paste0("Summary Graph_",
+                                           primaryVarName, "_",
+                                           Sys.Date(), ".svg")},
+              
+              content = function(file){ggsave(filename = file,
+                                              plot = summaryGraph,
+                                              device = "svg",
+                                              width = 20,
+                                              height = 10,
+                                              units = "cm",
+                                              dpi = 320)})
+             }
+          },
+        
+        label = "Download graphs",
+        ignoreNULL = TRUE
+       )
     },
     
     label = "Generate reports",
@@ -302,7 +357,7 @@ server <- function(input, output, session){
       updateRadioButtons(
         session = session,
         inputId = "table_type",
-        selected = NA,
+        selected = ".csv",
         inline = TRUE
       )
       
@@ -310,7 +365,7 @@ server <- function(input, output, session){
       updateRadioButtons(
         session = session,
         inputId = "graph_type",
-        selected = NA,
+        selected = ".png",
         inline = TRUE
       )
     },
@@ -319,7 +374,6 @@ server <- function(input, output, session){
     ignoreNULL = TRUE
   )
   
-
 }
   
   
