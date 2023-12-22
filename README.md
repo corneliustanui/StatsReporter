@@ -1,8 +1,8 @@
-# Stats Reporter
+# QSR
 
 [![Deploy App](https://github.com/corneliustanui/StatsReporter/actions/workflows/deploy-shinyapp.yml/badge.svg)](https://github.com/corneliustanui/StatsReporter/actions/workflows/deploy-shinyapp.yml)
 
-This [app](https://corneliuskiplimo.shinyapps.io/StatsReporter/) generates reports in `.csv`, `.docx`, `.htlm`, or `.pdf` formats for basic descriptive statistical analyses:
+The [Quick Stats Reporter(QSR)](https://corneliuskiplimo.shinyapps.io/StatsReporter/) generates tabular reports in `.csv`, `.pdf`, `.docx`, `.htlm`, or `.pdf` and graphical reports in `.png`, `.pdf`, and `.svg` formats for basic descriptive statistical analyses:
 
 ### Univariate analysis
 
@@ -14,7 +14,7 @@ The univariate analysis entails reporting frequencies and percentages of a prima
 
 The bivariate analysis entails reporting frequencies and percentages of a primary categorical variable, or means, medians, standard deviation, minimum, maximum, and standard error of the mean of a primary numerical variable by categories of another grouping variable (secondary variable). The analysis also reports test statistics (Chi-square is used when the primary variable is categorical, while Kruskal-Wallis is used when the primary variable is numeric.) Such a table is shown below.
 
-![This is a pic](./www/secondary_table.png)
+![](./www/secondary_table.png)
 
 ### Trivariate analysis
 

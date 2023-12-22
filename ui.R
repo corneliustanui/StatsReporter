@@ -11,6 +11,7 @@ library(renv)
 library(markdown)
 library(plotly)
 library(forcats)
+library(svglite)
 
 # Define UI
 ui <- navbarPage(
@@ -19,7 +20,7 @@ ui <- navbarPage(
   
   # use_copy(),
   
-  title = strong("Quick Stats Reporter"),
+  title = strong("QSR"),
   
   tabPanel(title = "Home", 
            icon = icon("home"),
@@ -151,8 +152,8 @@ ui <- navbarPage(
                              
                              radioButtons(inputId = "table_type",
                                           label = "Table file type",
-                                          choices = c(".csv", ".docx", ".pdf", ".html"),
-                                          selected = NA,
+                                          choices = c(".csv", ".pdf", ".html", ".docx"),
+                                          selected = ".csv",
                                           inline = TRUE,
                                           width = NULL),
                              
@@ -182,8 +183,8 @@ ui <- navbarPage(
                              
                              radioButtons(inputId = "graph_type",
                                           label = "Graph file type",
-                                          choices = c(".png", ".svg"),
-                                          selected = NA,
+                                          choices = c(".png", ".pdf", ".svg"),
+                                          selected = ".png",
                                           inline = TRUE,
                                           width = NULL),
                              
