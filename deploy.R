@@ -24,7 +24,7 @@ deployApp(appFiles = c('www/about.md',
                        'www/tertiary_table.png',
                        
                        'Funs/custom_table_funs.R',
-                       'Funs/univar_graphs.R',
+                       'Funs/custom_graph_funs.R',
                        
                        'ui.R', 
                        'server.R',
