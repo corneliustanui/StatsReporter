@@ -17,7 +17,9 @@ ui <- navbarPage(
   
   useShinyjs(),
   
-  title = strong("Stats Reporter"),
+  # use_copy(),
+  
+  title = strong("Quick Stats Reporter"),
   
   tabPanel(title = "Home", 
            icon = icon("home"),
@@ -147,15 +149,15 @@ ui <- navbarPage(
                                    ), 
                                  style = "font-size: 70%; width: 70%"),
                              
-                             radioButtons(inputId = "report_type",
-                                          label = "Report file type",
+                             radioButtons(inputId = "table_type",
+                                          label = "Table file type",
                                           choices = c(".csv", ".docx", ".pdf", ".html"),
                                           selected = NA,
                                           inline = TRUE,
                                           width = NULL),
                              
-                             downloadButton("download_dt_table", 
-                                            label = "Download",
+                             downloadButton(outputId = "download_dt_table", 
+                                            label = "Download Table",
                                             style = "background-color:#317EBD;
                                                      color:white;
                                                      border-color:#BEBEBE;
@@ -185,8 +187,8 @@ ui <- navbarPage(
                                           inline = TRUE,
                                           width = NULL),
                              
-                             downloadButton("download_dt_graph", 
-                                            label = "Download",
+                             downloadButton(outputId = "download_dt_graph", 
+                                            label = "Download Graph",
                                             style = "background-color:#317EBD;
                                                      color:white;
                                                      border-color:#BEBEBE;
