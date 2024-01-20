@@ -190,7 +190,7 @@ server <- function(input, output, session){
                         searching    = TRUE,
                         scrollX      = TRUE,
                         pageLength   = 5,
-                        lengthMenu = c(5, 10, 15, 20, 25),
+                        lengthMenu = c(2, 3, 5, 10, 15, 20, 25),
                         FixedColumns = list(leftColumns = c(2)),
                         initComplete = JS("function(settings, json) {",
                                           "$(this.api().table().header()).css({'background-color': '#317EBD', 
