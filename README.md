@@ -20,4 +20,4 @@ The bivariate analysis entails reporting frequencies and percentages of a primar
 
 The trivariate analysis entails reporting frequencies and percentages of a primary categorical variable, or means, medians, standard deviation, minimum, maximum, and standard error of the mean of a primary numerical variable by categories of two grouping variables (secondary and tertiary variables). The analysis also reports test statistics (Chi-square is used when the primary variable is categorical, while Kruskal-Wallis is used when the primary variable is numeric.). The trivariate analysis report is only available in .html and .pdf formats. Such a table is shown below.
 
-![](./wwww/tertiary_table.png)
+![](./www/tertiary_table.png)
