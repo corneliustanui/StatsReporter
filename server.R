@@ -19,8 +19,8 @@ server <- function(input, output, session){
     if (endsWith(inFile$name, '.rds')){
       data_frame <- readRDS(input$data_file$datapath) %>% as.data.frame()
       return(data_frame) 
-    
-    # read .csv
+      
+      # read .csv
     } else if (endsWith(inFile$name, '.csv')){
       data_frame <- read.csv(input$data_file$datapath) %>% as.data.frame()
       return(data_frame)
@@ -36,7 +36,7 @@ server <- function(input, output, session){
       
       # remove labels
       data_frame <- sapply(data_frame, haven::zap_label) %>% as.data.frame()
-
+      
       return(data_frame)}
     
   })
@@ -94,10 +94,10 @@ server <- function(input, output, session){
         shinyjs::disable("show_secondary_var")
         updateAwesomeCheckbox(session, "show_secondary_var", value = FALSE)
         
-        } else if (input$primary_var != "None"){
-          shinyjs::enable("show_secondary_var")
-          }
-      },
+      } else if (input$primary_var != "None"){
+        shinyjs::enable("show_secondary_var")
+      }
+    },
     
     label = "Toggle 'show_secondary_var'",
     ignoreNULL = TRUE
@@ -109,20 +109,20 @@ server <- function(input, output, session){
     handlerExpr = {
       if(input$show_secondary_var == FALSE){
         shinyjs::disable("secondary_var")
-        } else if(input$show_secondary_var == TRUE){
-          shinyjs::enable("secondary_var")
-          
-          choices_secondary_var <- c("None", colnames(data_frame()))
-          freezeReactiveValue(input, "secondary_var")
-          
-          updateSelectInput(
-            session = session,
-            inputId = "secondary_var",
-            choices = choices_secondary_var,
-            selected = choices_secondary_var[1]
-            )
-          }
-      }, 
+      } else if(input$show_secondary_var == TRUE){
+        shinyjs::enable("secondary_var")
+        
+        choices_secondary_var <- c("None", colnames(data_frame()))
+        freezeReactiveValue(input, "secondary_var")
+        
+        updateSelectInput(
+          session = session,
+          inputId = "secondary_var",
+          choices = choices_secondary_var,
+          selected = choices_secondary_var[1]
+        )
+      }
+    }, 
     
     label = "Toggle 'secondary_var'",
     ignoreNULL = TRUE
@@ -137,10 +137,10 @@ server <- function(input, output, session){
         shinyjs::disable("show_tertiary_var")
         updateAwesomeCheckbox(session, "show_tertiary_var", value = FALSE)
         
-        } else if(input$secondary_var != "None"){
-          shinyjs::enable("show_tertiary_var")
-          }
-      },
+      } else if(input$secondary_var != "None"){
+        shinyjs::enable("show_tertiary_var")
+      }
+    },
     
     label = "Toggle 'show_tertiary_var'",
     ignoreNULL = TRUE
@@ -153,7 +153,7 @@ server <- function(input, output, session){
     handlerExpr = {
       if(input$show_tertiary_var == FALSE){
         shinyjs::disable("tertiary_var")
-
+        
       } else if(input$show_tertiary_var == TRUE){
         shinyjs::enable("tertiary_var")
         
@@ -196,9 +196,9 @@ server <- function(input, output, session){
                                           "$(this.api().table().header()).css({'background-color': '#317EBD', 
                                                                                 'color': 'white'});",
                                           "}")
-                        )
-                  )
-           }
+                      )
+        )
+      }
       )
       
       
@@ -235,12 +235,12 @@ server <- function(input, output, session){
       
       # download summary table
       observeEvent(
-
+        
         eventExpr = input$table_type,
         
         handlerExpr = {
           if (input$table_type == ".csv"){
-
+            
             # 1) Default .csv table
             output$download_dt_table <- downloadHandler(
               filename = function() {
@@ -283,9 +283,12 @@ server <- function(input, output, session){
               },
               
               content = function(file) {
-                HTML(file = file,
-                     x = summary_dt_table, 
-                     row.names = FALSE)
+                print(xtable(x = summary_dt_table), 
+                      type = "html", 
+                      file = file,
+                      include.rownames = FALSE, 
+                      html.table.attributes = "class = 'table-bordered'")
+                
               }
             )
           } 
@@ -296,7 +299,7 @@ server <- function(input, output, session){
       )
       
       # copy summary table
-
+      
       
       # generate graphs
       summaryGraph <- univar_graphs(data = data_frame(), 
@@ -356,17 +359,17 @@ server <- function(input, output, session){
                                               height = 10,
                                               units = "cm",
                                               dpi = 320)})
-             }
-          },
+          }
+        },
         
         label = "Download graphs",
         ignoreNULL = TRUE
-       )
+      )
     },
     
     label = "Generate reports",
     ignoreNULL = TRUE
-    )
+  )
   
   
   # clear tables when button "Clear Report" is clicked 
@@ -449,5 +452,5 @@ server <- function(input, output, session){
   )
   
 }
-  
-  
+
+

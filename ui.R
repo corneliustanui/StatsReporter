@@ -2,7 +2,7 @@
 library(readxl) # reading in .xls and .xlsx files
 library(haven) # reading .dta files
 library(gridExtra) # save .pdf files
-library(R2HTML) # save .html files
+library(xtable) # save .html files
 library(shiny)
 library(shinydashboard)
 library(shinyWidgets)
