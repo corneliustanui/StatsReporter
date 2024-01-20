@@ -156,22 +156,30 @@ ui <- navbarPage(
                                    ), 
                                  style = "font-size: 70%; width: 70%"),
                              
-                             radioButtons(inputId = "table_type",
-                                          label = "Table file type",
-                                          choices = c(".csv", ".pdf", ".html"),
-                                          selected = ".csv",
-                                          inline = TRUE,
-                                          width = NULL),
-                             
-                             downloadButton(outputId = "download_dt_table", 
-                                            label = "Download Table",
-                                            style = "background-color:#317EBD;
+                             div(
+                               div(
+                                 style="display: inline-block; width: 175px ;",
+                                 radioButtons(inputId = "table_type",
+                                              label = "Table file type",
+                                              choices = c(".csv", ".pdf", ".html"),
+                                              selected = ".csv",
+                                              inline = TRUE,
+                                              width = NULL)
+                               ),
+                               
+                               div(
+                                 style="display: inline-block; width: 1px ;",
+                                 downloadButton(outputId = "download_dt_table", 
+                                                label = "Download Table",
+                                                style = "background-color:#317EBD;
                                                      color:white;
                                                      border-color:#BEBEBE;
                                                      border-style:none;
                                                      border-width:3px;
                                                      border-radius:2%;
                                                      font-size:13px;")
+                               )
+                             )
                              
                     ),
                     
@@ -187,22 +195,30 @@ ui <- navbarPage(
                                  color = "#317EBD"
                                ),
                              
-                             radioButtons(inputId = "graph_type",
-                                          label = "Graph file type",
-                                          choices = c(".png", ".pdf", ".svg"),
-                                          selected = ".png",
-                                          inline = TRUE,
-                                          width = NULL),
-                             
-                             downloadButton(outputId = "download_dt_graph", 
-                                            label = "Download Graph",
-                                            style = "background-color:#317EBD;
+                             div(
+                               div(
+                                 style="display: inline-block; width: 175px ;",
+                                 radioButtons(inputId = "graph_type",
+                                              label = "Graph file type",
+                                              choices = c(".png", ".pdf", ".svg"),
+                                              selected = ".png",
+                                              inline = TRUE,
+                                              width = NULL)
+                               ),
+                               
+                               div(
+                                 style="display: inline-block; width: 1px ;",
+                                 downloadButton(outputId = "download_dt_graph", 
+                                                label = "Download Graph",
+                                                style = "background-color:#317EBD;
                                                      color:white;
                                                      border-color:#BEBEBE;
                                                      border-style:none;
                                                      border-width:3px;
                                                      border-radius:2%;
                                                      font-size:13px;")
+                               )
+                             )
                              )
                       )
               )
