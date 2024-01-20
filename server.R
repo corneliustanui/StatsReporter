@@ -241,7 +241,7 @@ server <- function(input, output, session){
         handlerExpr = {
           if (input$table_type == ".csv"){
 
-            # 1) Default .csv graph
+            # 1) Default .csv table
             output$download_dt_table <- downloadHandler(
               filename = function() {
                 paste("Summary Table_", 
@@ -255,7 +255,7 @@ server <- function(input, output, session){
               }
             )
             
-            # 2) .pdf graph
+            # 2) .pdf table
           } else if (input$table_type == ".pdf"){
             output$download_dt_table <- downloadHandler(
               file = function() {
@@ -272,7 +272,7 @@ server <- function(input, output, session){
               }
             )
             
-            # 3) .html graph
+            # 3) .html table
           } else if (input$table_type == ".html"){
             output$download_dt_table <- downloadHandler(
               file = function() {
@@ -288,7 +288,6 @@ server <- function(input, output, session){
                      row.names = FALSE)
               }
             )
-            
           } 
         },
         
