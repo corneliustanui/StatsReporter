@@ -21,7 +21,7 @@ univar_graphs <- function(data, var) {
       geom_histogram(aes(y = after_stat(density)),
                      fill = 'cornflowerblue',
                      color = "white") +
-      geom_density(aes(color = "Simulated"),
+      geom_density(aes(color = "Raw Data"),
                    linewidth = 0.8,
                    key_glyph = "rect",
                    lty = 1) +
@@ -36,6 +36,18 @@ univar_graphs <- function(data, var) {
            # x = NULL,
            x = paste("Bins of", {{var}}),
            y = "Density") + 
+      
+      # display summary stats on the plot
+      geom_label(data = . %>% 
+                   summarise(Mean = round(mean({{var}}, na.rm = TRUE), 2),
+                             Median = round(median({{var}}, na.rm = TRUE), 2),
+                             Max_XVar = max({{var}}),
+                             Max_YVar = max(density({{var}})$y)),
+                 aes(x = Max_XVar - 3, y = Max_YVar + 0.01,
+                     label = sprintf("Summary Stats\n1) Mean: %.2f \n2) Median: %.2f", Mean, Median)), 
+                 fill = "#DA9100",
+                 color = "white",
+                 size = 4) +
       
       # custom theme
       theme(plot.title = element_text(face = "bold",

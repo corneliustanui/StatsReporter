@@ -1,4 +1,8 @@
 # packages
+library(readxl) # reading in .xls and .xlsx files
+library(haven) # reading .dta files
+library(gridExtra) # save .pdf files
+library(R2HTML) # save .html files
 library(shiny)
 library(shinydashboard)
 library(shinyWidgets)
@@ -11,7 +15,7 @@ library(renv)
 library(markdown)
 library(plotly)
 library(forcats)
-library(svglite)
+library(svglite) # save .svg files
 
 # Define UI
 ui <- navbarPage(
@@ -51,9 +55,11 @@ ui <- navbarPage(
                   fileInput(inputId = "data_file",
                             label = NULL,
                             multiple = FALSE,
-                            accept = ".csv",
+                            accept = c(".rds",
+                                       ".csv", ".xls", ".xlsx", 
+                                       ".dta"),
                             buttonLabel = "Browse for file",
-                            placeholder = "Only .csv files",
+                            placeholder = "Select one data file",
                             width = "270px"),
                   
                   h3("Report Fields"),
@@ -152,7 +158,7 @@ ui <- navbarPage(
                              
                              radioButtons(inputId = "table_type",
                                           label = "Table file type",
-                                          choices = c(".csv", ".pdf", ".html", ".docx"),
+                                          choices = c(".csv", ".pdf", ".html"),
                                           selected = ".csv",
                                           inline = TRUE,
                                           width = NULL),

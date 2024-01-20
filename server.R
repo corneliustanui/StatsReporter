@@ -12,7 +12,33 @@ server <- function(input, output, session){
   # import data
   data_frame <- reactive({
     req(input$data_file)
-    read.csv(input$data_file$datapath)
+    
+    inFile <- input$data_file
+    
+    # read .rds
+    if (endsWith(inFile$name, '.rds')){
+      data_frame <- readRDS(input$data_file$datapath) %>% as.data.frame()
+      return(data_frame) 
+    
+    # read .csv
+    } else if (endsWith(inFile$name, '.csv')){
+      data_frame <- read.csv(input$data_file$datapath) %>% as.data.frame()
+      return(data_frame)
+      
+      # read .xls or .xlsx
+    } else if (endsWith(inFile$name, '.xlsx') | endsWith(inFile$name, '.xls')){
+      data_frame <- read_excel(input$data_file$datapath) %>% as.data.frame()
+      return(data_frame)
+      
+      # read .dta
+    } else if (endsWith(inFile$name, '.dta')){
+      data_frame <- read_dta(input$data_file$datapath) %>% as.data.frame()
+      
+      # remove labels
+      data_frame <- sapply(data_frame, haven::zap_label) %>% as.data.frame()
+
+      return(data_frame)}
+    
   })
   
   observeEvent(
@@ -208,17 +234,66 @@ server <- function(input, output, session){
       output$dt_table <- renderTable(summary_dt_table)
       
       # download summary table
-      output$download_dt_table <- downloadHandler(
-        filename = function() {
-          paste("Summary Table_", 
-                primaryVarName, "_", 
-                secondaryVarName, "_", 
-                Sys.Date(), ".csv", sep="")
+      observeEvent(
+
+        eventExpr = input$table_type,
+        
+        handlerExpr = {
+          if (input$table_type == ".csv"){
+
+            # 1) Default .csv graph
+            output$download_dt_table <- downloadHandler(
+              filename = function() {
+                paste("Summary Table_", 
+                      primaryVarName, "_", 
+                      secondaryVarName, "_", 
+                      Sys.Date(), ".csv", sep="")
+              },
+              
+              content = function(file) {
+                write.csv(summary_dt_table, file, row.names = FALSE)
+              }
+            )
+            
+            # 2) .pdf graph
+          } else if (input$table_type == ".pdf"){
+            output$download_dt_table <- downloadHandler(
+              file = function() {
+                paste("Summary Table_", 
+                      primaryVarName, "_", 
+                      secondaryVarName, "_", 
+                      Sys.Date(), ".pdf", sep="")
+              },
+              
+              content = function(file) {
+                pdf(file = file)
+                grid.table(summary_dt_table)
+                dev.off()
+              }
+            )
+            
+            # 3) .html graph
+          } else if (input$table_type == ".html"){
+            output$download_dt_table <- downloadHandler(
+              file = function() {
+                paste("Summary Table_", 
+                      primaryVarName, "_", 
+                      secondaryVarName, "_", 
+                      Sys.Date(), ".html", sep="")
+              },
+              
+              content = function(file) {
+                HTML(file = file,
+                     x = summary_dt_table, 
+                     row.names = FALSE)
+              }
+            )
+            
+          } 
         },
         
-        content = function(file) {
-          write.csv(summary_dt_table, file, row.names = FALSE)
-        }
+        label = "Download tables",
+        ignoreNULL = TRUE
       )
       
       # copy summary table
