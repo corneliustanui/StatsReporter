@@ -1,21 +1,11 @@
 # About QSR
 
-**QSR** (Quick Stats Reporter) is an extremely useful R/Shiny web application for quick data analysis and reporting. It determines on its own what kind of table and graph to generate depending on the type of variable(s) selected. It generates tabular reports in `.csv`, `.pdf`, `.docx`, `.htlm`, or `.pdf` and graphical reports in `.png`, `.pdf`, and `.svg` formats for the following basic descriptive statistical analyses:
+**QSR** (Quick Stats Reporter) is an extremely useful R/Shiny web application for quick data analysis and reporting. It determines on its own what kind of table and graph to generate depending on the type of variable(s) selected. It generates tabular reports in `.csv`, `.pdf`, & `.htlm`, and graphical reports in `.png`, `.pdf`, & `.svg` formats. 
 
-### Univariate analysis
+This minimalist application is designed to handle univariate, bivariate, and trivariate analyses. See instructions under <u>Stats</u> tab for more information about these analyses. 
 
-The univariate analysis entails reporting frequencies and percentages of a primary categorical variable, or means, medians, standard deviation, minimum, maximum, and standard error of the mean of a primary numerical variable. Such a table is shown below.
+> For questions or bug reports, visit the [GitHub repository](https://github.com/corneliustanui/StatsReporter), where you can look at the source code or raise an issue, or contact the developer directly via: [kiplimocornelius\@gmail.com](mailto:kiplimocornelius@gmail.com). The developer will be happy to respond, but may take some time 👍
 
-![](primary_table.png)
+[//]: # (<footer> <a id = "copyright"> © 2023 - 2024 by Cornelius Tanui </a> </footer>)
 
-### Bivariate analysis
-
-The bivariate analysis entails reporting frequencies and percentages of a primary categorical variable, or means, medians, standard deviation, minimum, maximum, and standard error of the mean of a primary numerical variable by categories of another grouping variable (secondary variable). The analysis also reports test statistics (Chi-square is used when the primary variable is categorical, while Kruskal-Wallis is used when the primary variable is numeric.) Such a table is shown below.
-
-![](secondary_table.png)
-
-### Trivariate analysis
-
-The trivariate analysis entails reporting frequencies and percentages of a primary categorical variable, or means, medians, standard deviation, minimum, maximum, and standard error of the mean of a primary numerical variable by categories of two grouping variables (secondary and tertiary variables). The analysis also reports test statistics (Chi-square is used when the primary variable is categorical, while Kruskal-Wallis is used when the primary variable is numeric.). The trivariate analysis report is only available in .html and .pdf formats. Such a table is shown below.
-
-![](tertiary_table.png)
+<footer id = "footer"> <a id = "copyright" style = "margin: 0 auto; display:block; text-align: center"> © 2023 - 2024 by Cornelius Tanui </a> </footer>
